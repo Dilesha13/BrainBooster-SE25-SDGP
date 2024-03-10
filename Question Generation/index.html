@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Frontend</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class = "main">
+        <nav>
+            <div class = "logo">
+                <img src = "BrainBooster Logo.png">
+        </nav>
+    </div>
+    <div class="upload pdf">
+        <h1>Welcome to the Brain Booster</h1>
+        <p1>Upload th PDF:</p1>
+        <form action="/upload_script.php" method="post" enctype="multipart/form-data">
+            <input type="file" id="myPdf" name="pdfFile" accept=".pdf">
+            <input type="submit" id="generateQ" value="Generate Questions">
+            <a href="http://127.0.0.1:5000/quiz">Visit quiz!</a>
+        </form>
+    </div>
+</body>
+<script>
+
+</script>
+</html>
