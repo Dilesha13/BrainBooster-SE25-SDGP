@@ -116,3 +116,13 @@ def get_sentences_for_keyword(keywords, sentences):
         del keyword_sentences[del_key]
 
     return keyword_sentences
+
+def is_far(words_list,currentword,thresh,normalized_levenshtein):
+    threshold = thresh
+    score_list =[]
+    for word in words_list:
+        score_list.append(normalized_levenshtein.distance(word.lower(),currentword.lower()))
+    if min(score_list)>=threshold:
+        return True
+    else:
+        return False
