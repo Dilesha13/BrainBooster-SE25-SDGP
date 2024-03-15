@@ -126,3 +126,14 @@ def is_far(words_list,currentword,thresh,normalized_levenshtein):
         return True
     else:
         return False
+    
+def filter_phrases(phrase_keys,max,normalized_levenshtein ):
+    filtered_phrases =[]
+    if len(phrase_keys)>0:
+        filtered_phrases.append(phrase_keys[0])
+        for ph in phrase_keys[1:]:
+            if is_far(filtered_phrases,ph,0.7,normalized_levenshtein ):
+                filtered_phrases.append(ph)
+            if len(filtered_phrases)>=max:
+                break
+    return filtered_phrases
