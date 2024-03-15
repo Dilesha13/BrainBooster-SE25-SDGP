@@ -160,3 +160,19 @@ def get_nouns_multipartite(text):
         out.append(key[0])
 
     return out
+
+def get_phrases(doc):
+    phrases={}
+    for np in doc.noun_chunks:
+        phrase =np.text
+        len_phrase = len(phrase.split())
+        if len_phrase > 1:
+            if phrase not in phrases:
+                phrases[phrase]=1
+            else:
+                phrases[phrase]=phrases[phrase]+1
+
+    phrase_keys=list(phrases.keys())
+    phrase_keys = sorted(phrase_keys, key= lambda x: len(x),reverse=True)
+    phrase_keys=phrase_keys[:50]
+    return phrase_keys
