@@ -260,9 +260,13 @@ def generate_normal_questions(keyword_sent_mapping,device,tokenizer,model):  #fo
 
     encoding = tokenizer.batch_encode_plus(batch_text, pad_to_max_length=True, return_tensors="pt")
 
-
     print ("Running model for generation")
     input_ids, attention_masks = encoding["input_ids"].to(device), encoding["attention_mask"].to(device)
 
+    with torch.no_grad():
+        outs = model.generate(input_ids=input_ids,
+                              attention_mask=attention_masks,
+                              max_length=150)
+        
     output_array ={}
     output_array["questions"] =[]
