@@ -230,6 +230,13 @@ def generate_questions_mcq(keyword_sent_mapping,device,tokenizer,model,sense2vec
         out = outs[index, :]
         dec = tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True)
 
+        Question = dec.replace("question:", "")
+        Question = Question.strip()
+        individual_question["question_statement"] = Question
+        individual_question["question_type"] = "MCQ"
+        individual_question["answer"] = val
+        individual_question["id"] = index+1
+        individual_question["options"], individual_question["options_algorithm"] = get_options(val, sense2vec)
 
         individual_question["options"] =  filter_phrases(individual_question["options"], 10,normalized_levenshtein)
         index = 3
