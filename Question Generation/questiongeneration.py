@@ -248,3 +248,21 @@ def generate_questions_mcq(keyword_sent_mapping,device,tokenizer,model,sense2vec
             output_array["questions"].append(individual_question)
 
     return output_array
+
+def generate_normal_questions(keyword_sent_mapping,device,tokenizer,model):  #for normal one word questions
+    batch_text = []
+    answers = keyword_sent_mapping.keys()
+    for answer in answers:
+        txt = keyword_sent_mapping[answer]
+        context = "context: " + txt
+        text = context + " " + "answer: " + answer + " </s>"
+        batch_text.append(text)
+
+    encoding = tokenizer.batch_encode_plus(batch_text, pad_to_max_length=True, return_tensors="pt")
+
+
+    print ("Running model for generation")
+    input_ids, attention_masks = encoding["input_ids"].to(device), encoding["attention_mask"].to(device)
+
+    output_array ={}
+    output_array["questions"] =[]
