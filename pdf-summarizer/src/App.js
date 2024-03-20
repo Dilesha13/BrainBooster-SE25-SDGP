@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Logo from"./assets/Logo.png";
 
 function App() {
+  const [value, setValue] = useState(null);
   return (
     <div className='w-full bg-[#0f172a] h-full min-h-[100vh 
     py-4 
@@ -20,7 +22,7 @@ function App() {
         <div className="flex flex-col w-full items-center justify-center mt-5  ">
           <textarea placeholder="Paste doc content here ..."
           rows={7} className="block w-full md:w-[650px] rounded-md border border-slate-700 bg-slate-800 p-2 text-sm shadow-lg font-medium text-white
-          focus:border-gray-500 focus:outline-none focus:ring-0"> 
+          focus:border-gray-500 focus:outline-none focus:ring-0" onChange={(e) => setValue(e.target.value)}> 
           </textarea>
           <button className="mt-5 bg-blue-500 px-5 py-2 text-white text-md font-semibold cursor-pointer rounded-md">Submit</button>
         </div>
