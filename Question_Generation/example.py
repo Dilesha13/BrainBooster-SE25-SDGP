@@ -303,7 +303,7 @@ def extract_text_from_pdf(pdf_path):
     return text
 
 # Replace 'example.pdf' with the path to your PDF file
-pdf_path = 'FrontEnd\src\pdfs\Lecture.pdf'
+pdf_path = 'C:/Users/User/OneDrive/Desktop/2nd year/ML/week1/Lecture'
 
 text_from_pdf = extract_text_from_pdf(pdf_path)
 
