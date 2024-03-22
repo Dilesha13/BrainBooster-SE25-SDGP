@@ -39,7 +39,7 @@ const Team = () => {
       <div className="team-members">
         {teamMembers.map((member) => (
           <div key={member.id} className="team-member">
-            <img style={{ width: '150px', height: '180px' }} src={member.imgSrc} alt={member.name} />
+            <img style={{ width: '150px', height: '200px' }} src={member.imgSrc} alt={member.name} />
             <h3>{member.name}</h3>
             <p>{member.position}</p>
             <p>{member.bio}</p>
