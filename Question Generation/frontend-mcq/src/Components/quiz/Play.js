@@ -67,4 +67,40 @@ class Play extends Component {
             });
         }     
     };
+
+    handleOptionClick = (e) => {
+        if (e.target.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+            this.correctTimeout = setTimeout(() => {
+                this.correctSound.current.play();
+            }, 500);
+            this.correctAnswer();
+        } else {
+            this.wrongTimeout = setTimeout(() => {
+                this.wrongSound.current.play();
+            }, 500);
+            this.wrongAnswer();
+        }
+    }
+
+    handleNextButtonClick = () => {
+        this.playButtonSound();
+        if (this.state.nextQuestion !== undefined) {
+            this.setState(prevState => ({
+                currentQuestionIndex: prevState.currentQuestionIndex + 1
+            }), () => {
+                this.displayQuestions(this.state.state, this.state.currentQuestion, this.state.nextQuestion, this.state.previousQuestion);
+            });
+        }
+    };
+
+    handlePreviousButtonClick = () => {
+        this.playButtonSound();
+        if (this.state.previousQuestion !== undefined) {
+            this.setState(prevState => ({
+                currentQuestionIndex: prevState.currentQuestionIndex - 1
+            }), () => {
+                this.displayQuestions(this.state.state, this.state.currentQuestion, this.state.nextQuestion, this.state.previousQuestion);
+            });
+        }
+    };
 }
