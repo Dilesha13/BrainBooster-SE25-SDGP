@@ -92,7 +92,7 @@ useEffect(()=> {
       <div className="w-full">
         <div className="flex flex-row justify-between items-center w-full h-10 px-5 2xl:px-40">
           <h3 className="cursor-pointer text-3xl font-bold text-cyan-600">Summary!</h3>
-          <a href="#" /*onClick={(e) => e.preventDefault()}*/>
+          <a href="#">
             <img src={Logo} className="w-16 h-20.4 rounded-lg cursor-pointer" alt="logo"/>
           </a>
         </div>
