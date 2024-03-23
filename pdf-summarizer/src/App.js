@@ -1,10 +1,13 @@
-import { useState } from "react";    
+import { useEffect, useState } from "react";    
 import Logo from"./assets/Logo.png";
+import Delete from"./assets/Delete.png";
 
 function App() {
   const [value, setValue] = useState(null);
   const[data, setData] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [isCopy, setIsCopy] = useState (false);
+  
   const handlesubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -23,7 +26,6 @@ function App() {
         frequency_penalty: 0,
         presence_penalty: 0.5, 
         stop: ['"""'],
-        //aiModle :"gpt-3.5-turbo-1106"
       }),
     };
     fetch("https://api.openai.com/v1/completions",
@@ -33,7 +35,10 @@ function App() {
     const text = dt.choices?.[0]?.text;
       if (text) {
         setSubmitting(false);
-        setData(text);
+
+        localStorage.setItem("summary", JSON.stringify(data?.length > 0 ? [...data,text]:[text]));
+
+        fetchLocalStorage();
       } else {
         setSubmitting(false);
       }
@@ -44,9 +49,43 @@ function App() {
   });
 };
 
-console.log(data);
+const fetchLocalStorage= async ()=>{
+  const result= await localStorage.getItem("summary");
+  setData(JSON.parse(result)?.reverse());
+};
+
+async function copyTextToClipboard(text) {
+  if ("clipboard" in navigator) {
+    return await navigator.clipboard.writeText(text);
+  }
+}
+
+const handleCopy = (txt) => {
+  copyTextToClipboard(txt)
+    .then(() => {
+      setIsCopy(true);
+
+      setTimeout(() => {
+        setIsCopy(false);
+      }, 1500);
+    })
+    .catch((err) => console.log(err));
+};
+
+const handleDelete = (txt) => {
+  const filtered = data?.filter((d) => d !== txt);
+
+  setData(filtered);
+
+  localStorage.setItem("summary", JSON.stringify(filtered));
+};
+
+useEffect(()=> {
+  fetchLocalStorage();
+},[]);
+
   return (
-    <div className='w-full bg-[#0f172a] h-full min-h-[100vh 
+    <div className='w-full bg-[#0f172a] h-full min-h-[100vh] 
     py-4 
     px-4 
     md:px-20'>
@@ -71,11 +110,19 @@ console.log(data);
       </div>
       <div className="w-full mt-10 flex flex-col gap-5 shadow-md items-center justify-center">{data?.length > 0 && 
       <>
-      <p>Summary History</p>
+      <p className="text-white font-semibold text-lg">Summary History</p>
       {data?.map((d,index) => (
-        <div>
+        <div key={index}className="max-w-2xl bg-slate-800 p-3 rounded-md">
 
-          <p>{d}</p>
+          <p className="text-gray-400 text-lg">{d}</p>
+          <div className="flex gap-5 items-center justify-end mt-2">
+            <p className="text-gray-500 font-semibold cursor-pointer" onClick={()=> handleCopy(d)}>
+              { isCopy ? "Copied" : "Copy"}</p>
+            <span className="cursor-pointer" onClick={()=>handleDelete(d)}>
+              <img src={Delete} className="w-6 h-6"/>
+            </span>
+
+          </div>
         </div>
       ))}
       </>
