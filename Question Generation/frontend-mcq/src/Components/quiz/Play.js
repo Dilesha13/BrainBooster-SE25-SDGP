@@ -314,6 +314,96 @@ class Play extends Component {
         }
     }
 
+    endGame = () => {
+        alert('Quiz has eneded!');
+        const { state } = this;
+        const playerStats = {
+            score: state.score,
+            numberOfQuestions: state.numberOfQuestions,
+            numberOfAnsweredQuestions: state.correctAnswers + state.wrongAnswers,
+            correctAnswers: state.correctAnswers,
+            wrongAnswers: state.wrongAnswers,
+            fiftyFiftyUsed: 2 - state.fiftyFifty,
+            hintsUsed: 5 - state.hints
+        };
+        setTimeout(() => {
+            this.props.history.push('/play/quizSummary', playerStats);
+        }, 1000);
+    }
 
+    render () {
+        const { 
+            currentQuestion, 
+            currentQuestionIndex, 
+            fiftyFifty, 
+            hints, 
+            numberOfQuestions,
+            time 
+        } = this.state;
+
+        return (
+            <Fragment>
+                <Helmet><title>Quiz Page</title></Helmet>
+                <Fragment>
+                    <audio ref={this.correctSound} src={correctNotification}></audio>
+                    <audio ref={this.wrongSound} src={wrongNotification}></audio>
+                    <audio ref={this.buttonSound} src={buttonSound}></audio>
+                </Fragment>
+                <div className="questions">
+                    <h2>Quiz Mode</h2>
+                    <div className="lifeline-container">
+                        <p>
+                            <span onClick={this.handleFiftyFifty} className="mdi mdi-set-center mdi-24px lifeline-icon">
+                                <span className="lifeline">{fiftyFifty}</span>
+                            </span>
+                        </p>
+                        <p>
+                            <span onClick={this.handleHints} className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon">
+                                <span className="lifeline">{hints}</span>
+                            </span>
+                        </p>
+                    </div>
+                    <div className="timer-container">
+                        <p>
+                            <span className="left" style={{ float: 'left' }}>{currentQuestionIndex + 1} of {numberOfQuestions}</span>
+                            <span className={classnames('right valid', {
+                                'warning': time.distance <= 120000,
+                                'invalid': time.distance < 30000
+                            })}>
+                                {time.minutes}:{time.seconds}
+                            <span  className="mdi mdi-clock-outline mdi-24px"></span></span>
+                        </p>
+                    </div>
+                    <h5>{currentQuestion.question}</h5>
+                    <div className="options-container">
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionA}</p>
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionB}</p>
+                    </div>
+                    <div className="options-container">
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionC}</p>
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionD}</p>
+                    </div>
+
+                    <div className="button-container">
+                        <button 
+                            className={classnames('', {'disable': this.state.previousButtonDisabled})}
+                            id="previous-button" 
+                            onClick={this.handleButtonClick}>
+                            Previous
+                        </button>
+                        <button 
+                            className={classnames('', {'disable': this.state.nextButtonDisabled})}
+                            id="next-button" 
+                            onClick={this.handleButtonClick}>
+                                Next
+                            </button>
+                        <button id="quit-button" onClick={this.handleButtonClick}>Quit</button>
+                    </div>
+                </div>
+            </Fragment>
+        );
+    }
 
 }
+
+export default Play;
