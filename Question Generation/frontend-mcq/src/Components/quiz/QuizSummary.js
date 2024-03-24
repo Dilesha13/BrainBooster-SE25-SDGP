@@ -88,4 +88,31 @@ class QuizSummary extends Component {
                     </section>
                 </Fragment>
             );
+        } else {
+            stats = (
+                <section>
+                    <h1 className="no-stats">No Statistics Available</h1>
+                    <ul>
+                        <li>
+                            <Link to ="/play/quiz">Take a Quiz</Link>
+                        </li>
+                        <li>
+                            <Link to ="/">Back to Home</Link>
+                        </li>
+                    </ul>
+                </section>
+            );
+        }
+        return (
+            <Fragment>
+                <Helmet><title>Quiz App - Summary</title></Helmet>
+                <div className="quiz-summary">
+                    {stats}
+                </div>
+            </Fragment>
+        );
+    }
+
 }
+
+export default QuizSummary;
