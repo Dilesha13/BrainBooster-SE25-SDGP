@@ -103,4 +103,121 @@ class Play extends Component {
             });
         }
     };
+
+    handleQuitButtonClick = () => {
+        this.playButtonSound();
+        if (window.confirm('Are you sure you want to quit?')) {
+            this.props.history.push('/');
+        }
+    };
+
+    handleButtonClick = (e) => {
+        switch (e.target.id) {
+            case 'next-button':
+                this.handleNextButtonClick();
+                break;
+
+            case 'previous-button':
+                this.handlePreviousButtonClick();
+                break;
+
+            case 'quit-button':
+                this.handleQuitButtonClick();
+                break;
+
+            default:
+                break;
+        }
+        
+    };
+
+    playButtonSound = () => {
+        this.buttonSound.current.play();
+    };
+
+    correctAnswer = () => {
+        M.toast({
+            html: 'Correct Answer!',
+            classes: 'toast-valid',
+            displayLength: 1500
+        });
+        this.setState(prevState => ({
+            score: prevState.score + 1,
+            correctAnswers: prevState.correctAnswers + 1,
+            currentQuestionIndex: prevState.currentQuestionIndex + 1,
+            numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1
+        }), () => {            
+            if (this.state.nextQuestion === undefined) {
+                this.endGame();
+            } else {
+                this.displayQuestions(this.state.questions, this.state.currentQuestion, this.state.nextQuestion, this.state.previousQuestion);
+            }
+        });
+    }
+
+    wrongAnswer = () => {
+        navigator.vibrate(1000);
+        M.toast({
+            html: 'Wrong Answer!',
+            classes: 'toast-invalid',
+            displayLength: 1500
+        });
+        this.setState(prevState => ({
+            wrongAnswers: prevState.wrongAnswers + 1,
+            currentQuestionIndex: prevState.currentQuestionIndex + 1,
+            numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1
+        }), () => {
+            if (this.state.nextQuestion === undefined) {
+                this.endGame();
+            } else {
+                this.displayQuestions(this.state.questions, this.state.currentQuestion, this.state.nextQuestion, this.state.previousQuestion);
+            }
+        });
+    }
+
+    showOptions = () => {
+        const options = Array.from(document.querySelectorAll('.option'));
+
+        options.forEach(option => {
+            option.style.visibility = 'visible';
+        });
+
+        this.setState({
+            usedFiftyFifty: false
+        });
+    }
+
+    handleHints = () => {
+        if (this.state.hints > 0) {
+            const options = Array.from(document.querySelectorAll('.option'));
+            let indexOfAnswer;
+
+            options.forEach((option, index) => {
+                if (option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+                    indexOfAnswer = index;
+                }
+            });
+
+            while (true) {
+                const randomNumber = Math.round(Math.random() * 3);
+                if (randomNumber !== indexOfAnswer && !this.state.previousRandomNumbers.includes(randomNumber)) {
+                    options.forEach((option, index) => {
+                        if (index === randomNumber) {
+                            option.style.visibility = 'hidden';
+                            this.setState((prevState) => ({
+                                hints: prevState.hints - 1,
+                                previousRandomNumbers: prevState.previousRandomNumbers.concat(randomNumber)
+                            }));
+                        }
+                    });
+                    break;
+                }
+                if (this.state.previousRandomNumbers.length >= 3) break;
+            }
+        }
+    }
+
+    
+
+
 }
