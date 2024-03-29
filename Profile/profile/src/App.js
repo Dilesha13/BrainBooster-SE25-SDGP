@@ -24,3 +24,20 @@ const firestore = getFirestore(app);
 const messagesRef = collection(firestore, 'messages');
 const orderedQuery = query(messagesRef, orderBy('createdAt', 'asc'));
 const storage = getStorage(app); // Initialize storage
+
+function App() {
+  const [user] = useAuthState(auth);
+
+  return (
+    <div className="App">
+      <header>
+        <h1>Chat Room</h1>
+        <SignOut />
+      </header>
+
+      <section>
+        {user ? <ChatRoom /> : <SignIn />}
+      </section>
+    </div>
+  );
+}
