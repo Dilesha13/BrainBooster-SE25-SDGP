@@ -77,4 +77,28 @@ function ChatRoom() {
   const [messages] = useCollectionData(orderedQuery, { idField: 'id' });
   const [formValue, setFormValue] = useState('');
   const currentUser = auth.currentUser;
+
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    const { uid, photoURL } = currentUser;
+
+    if (formValue.trim() !== '') {
+      try {
+        await addDoc(messagesRef, {
+          text: formValue,
+          createdAt: serverTimestamp(),
+          uid,
+          photoURL
+        });
+
+        setFormValue('');
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
+    }
+  };
 }
