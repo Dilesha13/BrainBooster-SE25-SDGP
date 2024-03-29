@@ -46,3 +46,62 @@ header h1 {
 .sign-out:hover {
   background-color: #d32f2f; /* Darker red on hover */
 }
+
+/* Main Section */
+section {
+  background-color: #ffffff; /* White background */
+  border-radius: 10px;
+  margin-top: 20px;
+  overflow: hidden; /* Hide overflowing content */
+}
+
+/* Chat Area */
+main {
+  height: calc(100vh - 140px); /* Set chat area height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 20px;
+  background-color:#0f172a ;
+  background-size: cover; /* Cover the entire background */
+  background-position: center; /* Center the background image */
+}
+
+/* Chatroom Header */
+.chatroom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #4CAF50; /* Green header */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.chatroom-header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Input Form */
+form {
+  background-color: #f1f3f4; /* Light gray background */
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
+}
+
+.input {
+  height: 50px;
+  background-color: #ffffff;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input[type="text"] {
+  flex-grow: 1; /* Grow input field */
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  
+}
