@@ -1,38 +1,48 @@
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Disable scrolling */
+  background-image: url('image03.webp'); /* Update the path to the background image */
+}
+
+/* App Container */
 .App {
-  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  height: calc(100vh - 40px); /* Calculate height to fit the viewport */
+  overflow: auto; /* Enable scrolling for the container */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Header */
+header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-between;
+  background-color: #1c2e58; /* Green header */
   color: white;
+  padding: 10px 20px;
+  border-radius: 0 0 10px 10px;
 }
 
-.App-link {
-  color: #61dafb;
+header h1 {
+  font-size: 24px;
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Sign-out Button */
+.sign-out {
+  background-color: #f44336; /* Red sign-out button */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sign-out:hover {
+  background-color: #d32f2f; /* Darker red on hover */
 }
