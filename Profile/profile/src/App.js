@@ -69,3 +69,12 @@ function SignOut() {
     <button className="sign-out" onClick={() => signOut(auth)}>Log Out</button>
   );
 }
+
+function ChatRoom() {
+  const dummy = useRef();
+  const messagesRef = collection(firestore, 'messages');
+  const orderedQuery = query(messagesRef, orderBy('createdAt', 'asc'));
+  const [messages] = useCollectionData(orderedQuery, { idField: 'id' });
+  const [formValue, setFormValue] = useState('');
+  const currentUser = auth.currentUser;
+}
