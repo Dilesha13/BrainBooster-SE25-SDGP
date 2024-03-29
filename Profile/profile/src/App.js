@@ -63,3 +63,9 @@ function SignIn() {
     </div>
   );
 }
+
+function SignOut() {
+  return auth.currentUser && (
+    <button className="sign-out" onClick={() => signOut(auth)}>Log Out</button>
+  );
+}
