@@ -41,3 +41,18 @@ function App() {
     </div>
   );
 }
+
+function SignIn() {
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // Handle successful sign-in
+        console.log("User signed in:", result.user.displayName);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error signing in with Google:", error);
+      });
+  };
+}
