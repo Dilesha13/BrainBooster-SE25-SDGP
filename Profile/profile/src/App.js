@@ -55,4 +55,11 @@ function SignIn() {
         console.error("Error signing in with Google:", error);
       });
   };
+
+  return (
+    <div className="sign-in-container">
+      <button className="sign-in-button" onClick={signInWithGoogle}>Sign in with Google</button>
+      <p className="sign-in-text">Tap into the wisdom of the web to clear doubts and find answers!!</p>
+    </div>
+  );
 }
