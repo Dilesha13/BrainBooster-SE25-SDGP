@@ -101,4 +101,32 @@ function ChatRoom() {
       }
     }
   };
+
+  return (
+    <div className="chat-room-container">
+      <main>
+        {messages &&
+          messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`message ${
+                msg.uid === currentUser.uid ? 'sent' : 'received'
+              }`}
+            >
+              <img
+                src={msg.photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'}
+                alt="Profile"
+                className="avatar"
+              />
+              <div className="text-bubble">{msg.text}</div>
+            </div>
+          ))}
+        <span ref={dummy}></span>
+      </main>
+
+
+    </div>
+  );
 }
+
+export default App;
