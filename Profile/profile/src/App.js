@@ -12,5 +12,8 @@ const firebaseConfig = {
   apiKey: "AIzaSyBX1uu7oUaNZHg0WD6C9mls7SoHQTPIs98",
   authDomain: "profile-eb12f.firebaseapp.com",
   projectId: "profile-eb12f",
+  storageBucket: "profile-eb12f.appspot.com",
+  messagingSenderId: "300953728761",
+  appId: "1:300953728761:web:f7295957bc4daad0375428",
   measurementId: "G-QMWJTB5KWK"
 };
