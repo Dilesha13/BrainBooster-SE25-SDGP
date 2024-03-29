@@ -23,3 +23,4 @@ const auth = getAuth(app);
 const firestore = getFirestore(app);
 const messagesRef = collection(firestore, 'messages');
 const orderedQuery = query(messagesRef, orderBy('createdAt', 'asc'));
+const storage = getStorage(app); // Initialize storage
