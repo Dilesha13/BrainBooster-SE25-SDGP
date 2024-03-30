@@ -102,4 +102,24 @@ class Play extends Component {
             this.props.history.push('/');
         }
     };
+
+    handleButtonClick = (e) => {
+        switch (e.target.id) {
+            case 'next-button':
+                this.handleNextButtonClick();
+                break;
+
+            case 'previous-button':
+                this.handlePreviousButtonClick();
+                break;
+
+            case 'quit-button':
+                this.handleQuitButtonClick();
+                break;
+
+            default:
+                break;
+        }
+        
+    };
 }
