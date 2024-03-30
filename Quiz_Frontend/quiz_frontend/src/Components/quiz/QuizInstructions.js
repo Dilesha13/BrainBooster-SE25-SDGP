@@ -25,7 +25,20 @@ const QuizInstructions = () => (
                     Select the option which best answers the question by clicking (or selecting) it.
                     <img src={answer} alt="Quiz App answer example" />
                 </li>
-
+                <li>
+                    Each game has 2 lifelines namely:
+                    <ul id="sublist">
+                        <li>2 50-50 chances</li>
+                        <li>5 Hints</li>
+                    </ul>
+                </li>
+                <li>
+                    Selecting a 50-50 lifeline by clicking the icon
+                    <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span>
+                    will remove 2 wrong answers, leaving the correct answer and one wrong answer
+                    <img src={fiftyFifty} alt="Quiz App Fifty-Fifty example"/>
+                </li>
+        
             </ul>
             <div>
                 <span className="left"><Link to="/">No take me back</Link></span>
