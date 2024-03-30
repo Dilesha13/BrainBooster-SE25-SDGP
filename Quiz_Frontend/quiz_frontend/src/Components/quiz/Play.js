@@ -367,6 +367,15 @@ class Play extends Component {
                             <span  className="mdi mdi-clock-outline mdi-24px"></span></span>
                         </p>
                     </div>
+                    <h5>{currentQuestion.question}</h5>
+                    <div className="options-container">
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionA}</p>
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionB}</p>
+                    </div>
+                    <div className="options-container">
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionC}</p>
+                        <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionD}</p>
+                    </div>
 
                 </div>
             </Fragment>
