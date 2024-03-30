@@ -44,4 +44,8 @@ class Play extends Component {
         this.displayQuestions(questions, currentQuestion, nextQuestion, previousQuestion);
         this.startTimer();
     }
+
+    componentWillUnmount () {
+        clearInterval(this.interval);
+    }
 }
