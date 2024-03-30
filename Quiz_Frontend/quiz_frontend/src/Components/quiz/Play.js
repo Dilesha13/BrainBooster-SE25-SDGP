@@ -95,4 +95,11 @@ class Play extends Component {
             });
         }
     };
+
+    handleQuitButtonClick = () => {
+        this.playButtonSound();
+        if (window.confirm('Are you sure you want to quit?')) {
+            this.props.history.push('/');
+        }
+    };
 }
