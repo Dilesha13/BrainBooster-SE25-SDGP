@@ -16,5 +16,18 @@ class QuizSummary extends Component {
         };
     }
 
-    
+    componentDidMount () {
+        const { state } = this.props.location;
+        if (state) {
+            this.setState({
+                score: (state.score / state.numberOfQuestions) * 100,
+                numberOfQuestions: state.numberOfQuestions,
+                numberOfAnsweredQuestions: state.numberOfAnsweredQuestions,
+                correctAnswers: state.correctAnswers,
+                wrongAnswers: state.wrongAnswers,
+                hintsUsed: state.hintsUsed,
+                fiftyFiftyUsed: state.fiftyFiftyUsed
+            });
+        }
+    }
 }
