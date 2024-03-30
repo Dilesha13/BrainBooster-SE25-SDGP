@@ -38,4 +38,10 @@ class Play extends Component {
         this.wrongSound = React.createRef();
         this.buttonSound = React.createRef();
     }
+
+    componentDidMount () {
+        const { questions, currentQuestion, nextQuestion, previousQuestion } = this.state;
+        this.displayQuestions(questions, currentQuestion, nextQuestion, previousQuestion);
+        this.startTimer();
+    }
 }
