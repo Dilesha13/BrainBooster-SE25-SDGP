@@ -38,7 +38,15 @@ const QuizInstructions = () => (
                     will remove 2 wrong answers, leaving the correct answer and one wrong answer
                     <img src={fiftyFifty} alt="Quiz App Fifty-Fifty example"/>
                 </li>
-        
+                <li>
+                    Using a hint by clicking the icon
+                    <span className="mdi mdi-lightbulb-on mdi-24px lifeline-icon"></span>
+                    will remove one wrong answer leaving two wrong answers and one correct answer. You can use as many hints as possible on a single question.
+                    <img src={hints} alt="Quiz App hints example" />
+                </li>
+                <li>Feel free to quit (or retire from) the game at any time. In that case your score will be revealed afterwards.</li>
+                <li>The timer starts as soon as the game loads.</li>
+                <li>Let's do this if you think you've got what it takes?</li>
             </ul>
             <div>
                 <span className="left"><Link to="/">No take me back</Link></span>
