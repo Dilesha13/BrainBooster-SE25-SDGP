@@ -223,6 +223,34 @@ class Play extends Component {
 
             let count = 0;
 
+            do {
+                const randomNumber = Math.round(Math.random() * 3);
+                if (randomNumber !== indexOfAnswer) {
+                    if (randomNumbers.length < 2 && !randomNumbers.includes(randomNumber) && !randomNumbers.includes(indexOfAnswer)) {
+                            randomNumbers.push(randomNumber);
+                            count ++;
+                    } else {
+                        while (true) {
+                            const newRandomNumber = Math.round(Math.random() * 3);
+                            if (!randomNumbers.includes(newRandomNumber) && newRandomNumber !== indexOfAnswer) {
+                                randomNumbers.push(newRandomNumber);
+                                count ++;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } while (count < 2);
+
+            options.forEach((option, index) => {
+                if (randomNumbers.includes(index)) {
+                    option.style.visibility = 'hidden';
+                }
+            });
+            this.setState(prevState => ({
+                fiftyFifty: prevState.fiftyFifty - 1,
+                usedFiftyFifty: true
+            }));
         }
     }
 }
