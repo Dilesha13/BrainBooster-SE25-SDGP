@@ -122,4 +122,29 @@ class Play extends Component {
         }
         
     };
+
+    playButtonSound = () => {
+        this.buttonSound.current.play();
+    };
+
+    correctAnswer = () => {
+        M.toast({
+            html: 'Correct Answer!',
+            classes: 'toast-valid',
+            displayLength: 1500
+        });
+        this.setState(prevState => ({
+            score: prevState.score + 1,
+            correctAnswers: prevState.correctAnswers + 1,
+            currentQuestionIndex: prevState.currentQuestionIndex + 1,
+            numberOfAnsweredQuestions: prevState.numberOfAnsweredQuestions + 1
+        }), () => {            
+            if (this.state.nextQuestion === undefined) {
+                this.endGame();
+            } else {
+                this.displayQuestions(this.state.questions, this.state.currentQuestion, this.state.nextQuestion, this.state.previousQuestion);
+            }
+        });
+    }
+
 }
