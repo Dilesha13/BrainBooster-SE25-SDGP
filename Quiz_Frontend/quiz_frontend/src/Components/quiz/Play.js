@@ -356,6 +356,18 @@ class Play extends Component {
                             </span>
                         </p>
                     </div>
+                    <div className="timer-container">
+                        <p>
+                            <span className="left" style={{ float: 'left' }}>{currentQuestionIndex + 1} of {numberOfQuestions}</span>
+                            <span className={classnames('right valid', {
+                                'warning': time.distance <= 120000,
+                                'invalid': time.distance < 30000
+                            })}>
+                                {time.minutes}:{time.seconds}
+                            <span  className="mdi mdi-clock-outline mdi-24px"></span></span>
+                        </p>
+                    </div>
+
                 </div>
             </Fragment>
         );
