@@ -342,7 +342,21 @@ class Play extends Component {
                     <audio ref={this.wrongSound} src={wrongNotification}></audio>
                     <audio ref={this.buttonSound} src={buttonSound}></audio>
                 </Fragment>
-                
+                <div className="questions">
+                    <h2>Quiz Mode</h2>
+                    <div className="lifeline-container">
+                        <p>
+                            <span onClick={this.handleFiftyFifty} className="mdi mdi-set-center mdi-24px lifeline-icon">
+                                <span className="lifeline">{fiftyFifty}</span>
+                            </span>
+                        </p>
+                        <p>
+                            <span onClick={this.handleHints} className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon">
+                                <span className="lifeline">{hints}</span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
             </Fragment>
         );
     }
