@@ -208,4 +208,21 @@ class Play extends Component {
             }
         }
     }
+
+    handleFiftyFifty = () => {
+        if (this.state.fiftyFifty > 0 && this.state.usedFiftyFifty === false) {
+            const options = document.querySelectorAll('.option');
+            const randomNumbers = [];
+            let indexOfAnswer;
+
+            options.forEach((option, index) => {
+                if (option.innerHTML.toLowerCase() === this.state.answer.toLowerCase()) {
+                    indexOfAnswer = index;
+                }
+            });
+
+            let count = 0;
+
+        }
+    }
 }
