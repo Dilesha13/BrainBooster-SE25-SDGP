@@ -48,4 +48,26 @@ class Play extends Component {
     componentWillUnmount () {
         clearInterval(this.interval);
     }
+
+    displayQuestions = (questions = this.state.questions, currentQuestion, nextQuestion, previousQuestion) => {
+        let { currentQuestionIndex } = this.state;   
+        if (!isEmpty(this.state.questions)) {
+            questions = this.state.questions;
+            currentQuestion = questions[currentQuestionIndex];
+            nextQuestion = questions[currentQuestionIndex + 1];
+            previousQuestion = questions[currentQuestionIndex - 1];
+            const answer = currentQuestion.answer;
+            this.setState({
+                currentQuestion,
+                nextQuestion,
+                previousQuestion,
+                numberOfQuestions: questions.length,
+                answer,
+                previousRandomNumbers: []
+            }, () => {
+                this.showOptions();
+                this.handleDisableButton();
+            });
+        }     
+    };
 }
