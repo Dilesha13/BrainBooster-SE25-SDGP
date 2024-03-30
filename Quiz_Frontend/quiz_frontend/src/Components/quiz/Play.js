@@ -83,5 +83,16 @@ class Play extends Component {
             }, 500);
             this.wrongAnswer();
         }
-    }
+    };
+
+    handlePreviousButtonClick = () => {
+        this.playButtonSound();
+        if (this.state.previousQuestion !== undefined) {
+            this.setState(prevState => ({
+                currentQuestionIndex: prevState.currentQuestionIndex - 1
+            }), () => {
+                this.displayQuestions(this.state.state, this.state.currentQuestion, this.state.nextQuestion, this.state.previousQuestion);
+            });
+        }
+    };
 }
