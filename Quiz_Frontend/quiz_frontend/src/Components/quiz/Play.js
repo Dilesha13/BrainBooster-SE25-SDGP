@@ -33,5 +33,9 @@ class Play extends Component {
             previousRandomNumbers: [],
             time: {}
         };
+        this.interval = null;
+        this.correctSound = React.createRef();
+        this.wrongSound = React.createRef();
+        this.buttonSound = React.createRef();
     }
 }
