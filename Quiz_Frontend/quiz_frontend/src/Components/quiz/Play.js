@@ -324,4 +324,27 @@ class Play extends Component {
         }, 1000);
     }
 
+    render () {
+        const { 
+            currentQuestion, 
+            currentQuestionIndex, 
+            fiftyFifty, 
+            hints, 
+            numberOfQuestions,
+            time 
+        } = this.state;
+
+        return (
+            <Fragment>
+                <Helmet><title>Quiz Page</title></Helmet>
+                <Fragment>
+                    <audio ref={this.correctSound} src={correctNotification}></audio>
+                    <audio ref={this.wrongSound} src={wrongNotification}></audio>
+                    <audio ref={this.buttonSound} src={buttonSound}></audio>
+                </Fragment>
+                
+            </Fragment>
+        );
+    }
+
 }
