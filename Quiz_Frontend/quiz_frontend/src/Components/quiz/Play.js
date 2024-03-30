@@ -376,10 +376,25 @@ class Play extends Component {
                         <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionC}</p>
                         <p onClick={this.handleOptionClick} className="option">{currentQuestion.optionD}</p>
                     </div>
-
+                    <div className="button-container">
+                        <button 
+                            className={classnames('', {'disable': this.state.previousButtonDisabled})}
+                            id="previous-button" 
+                            onClick={this.handleButtonClick}>
+                            Previous
+                        </button>
+                        <button 
+                            className={classnames('', {'disable': this.state.nextButtonDisabled})}
+                            id="next-button" 
+                            onClick={this.handleButtonClick}>
+                                Next
+                            </button>
+                        <button id="quit-button" onClick={this.handleButtonClick}>Quit</button>
+                    </div>
                 </div>
             </Fragment>
         );
     }
 
 }
+export default Play;
