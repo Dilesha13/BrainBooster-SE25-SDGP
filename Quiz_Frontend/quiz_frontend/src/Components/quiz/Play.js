@@ -166,4 +166,16 @@ class Play extends Component {
             }
         });
     }
+
+    showOptions = () => {
+        const options = Array.from(document.querySelectorAll('.option'));
+
+        options.forEach(option => {
+            option.style.visibility = 'visible';
+        });
+
+        this.setState({
+            usedFiftyFifty: false
+        });
+    }
 }
