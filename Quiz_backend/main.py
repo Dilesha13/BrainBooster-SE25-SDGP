@@ -453,3 +453,14 @@ class PythonPredictor:
             "input_text": payload.get("input_text"),
             "max_questions": payload.get("max_questions", 4)
         }
+
+        text = inp['input_text']
+        num= inp['max_questions']
+        sentences = tokenize_sentences(text)
+        joiner = " "
+        modified_text = joiner.join(sentences)
+        answer = self.random_choice()
+        form = "truefalse: %s passage: %s </s>" % (modified_text, answer)
+
+        encoding = self.tokenizer.encode_plus(form, return_tensors="pt")
+        input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding["attention_mask"].to(self.device)
