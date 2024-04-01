@@ -342,3 +342,11 @@ class PythonPredictor:
         # model.eval()
         self.device = device
         self.model = model
+        self.nlp = spacy.load('en_core_web_sm')
+
+        self.s2v = Sense2Vec().from_disk('./input/s2v_old/')
+
+        self.fdist = FreqDist(brown.words())
+        self.normalized_levenshtein = NormalizedLevenshtein()
+        self.set_seed(42)
+        self.keyword_sentence_mapping= None
