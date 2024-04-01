@@ -517,3 +517,21 @@ class PythonPredictor:
         print (text)
         print ("\n")
         print ("Paraphrased Questions :: ")
+        final_outputs =[]
+        for beam_output in beam_outputs:
+            sent = self.tokenizer.decode(beam_output, skip_special_tokens=True,clean_up_tokenization_spaces=True)
+            if sent.lower() != self.sentence.lower() and sent not in final_outputs:
+                final_outputs.append(sent)
+        
+        output= {}
+        output['Question']= text
+        output['Count']= num
+        output['Paraphrased Questions']= final_outputs
+        
+        for i, final_output in enumerate(final_outputs):
+            print("{}: {}".format(i, final_output))
+
+        if torch.device=='cuda':
+            torch.cuda.empty_cache()
+        
+        return output
