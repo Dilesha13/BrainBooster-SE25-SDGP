@@ -399,3 +399,26 @@ class PythonPredictor:
                 torch.cuda.empty_cache()
                 
             return final_output
+    
+        def predict_questions(self, payload):
+            inp = {
+                "input_text": payload.get("input_text"),
+                "max_questions": payload.get("max_questions", 4)
+            }
+
+            text = inp['input_text']
+            sentences = tokenize_sentences(text)
+            joiner = " "
+            modified_text = joiner.join(sentences)
+
+
+            keywords = get_keywords(self.nlp,modified_text,inp['max_questions'],self.s2v,self.fdist,self.normalized_levenshtein,len(sentences) )
+
+
+            keyword_sentence_mapping = get_sentences_for_keyword(keywords, sentences)
+            
+            for k in keyword_sentence_mapping.keys():
+                text_snippet = " ".join(keyword_sentence_mapping[k][:3])
+                keyword_sentence_mapping[k] = text_snippet
+
+            final_output = {}
