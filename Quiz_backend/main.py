@@ -477,3 +477,13 @@ class PythonPredictor:
         
         Questions = [self.tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True) for out in
                     beam_output]
+        output= [Question.strip().capitalize() for Question in Questions]
+        if torch.device=='cuda':
+            torch.cuda.empty_cache()
+        
+        final= {}
+        final['Text']= text
+        final['Count']= num
+        final['Boolean Questions']= output
+            
+        return final
