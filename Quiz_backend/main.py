@@ -97,3 +97,17 @@ def sense2vec_get_words(word,s2v):
     out = list(OrderedDict.fromkeys(output))
 
     return out
+
+def get_options(answer,s2v):
+    distractors =[]
+
+    try:
+        distractors = sense2vec_get_words(answer,s2v)
+        if len(distractors) > 0:
+            print(" Sense2vec_distractors successful for word : ", answer)
+            return distractors,"sense2vec"
+    except:
+        print (" Sense2vec_distractors failed for word : ",answer)
+
+
+    return distractors,"None"
