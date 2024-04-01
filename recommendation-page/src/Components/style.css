@@ -6,8 +6,8 @@
 }
 
 :root{
-    --primary-color: #755139FF;
-    --secondary-color: #D4B996FF;
+    --primary-color: #0f172a;
+    --secondary-color: #aaa2bd;
 }
 
 body{
@@ -54,10 +54,9 @@ html{
 }
 
 .row2 img{
-    margin-top: 30px;
+    margin-top: 20px;
     width: 250px;
 }
-
 .row1 h1{
     font-size: 3rem;
     text-align: center;
