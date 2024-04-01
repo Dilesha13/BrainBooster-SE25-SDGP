@@ -466,5 +466,14 @@ class PythonPredictor:
         input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding["attention_mask"].to(self.device)
 
 
+        beam_output = self.model.generate(input_ids=input_ids,
+                                    attention_mask=attention_masks,
+                                    max_length=70,
+                                    num_beams=50,
+                                    num_return_sequences=num,
+                                    no_repeat_ngram_size=2,
+                                    early_stopping=True
+                                    )
+        
         Questions = [self.tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True) for out in
                     beam_output]
