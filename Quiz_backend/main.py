@@ -111,3 +111,10 @@ def get_options(answer,s2v):
 
 
     return distractors,"None"
+
+def tokenize_sentences(text):
+    sentences = [sent_tokenize(text)]
+    sentences = [y for x in sentences for y in x]
+    # Remove any short sentences less than 20 letters.
+    sentences = [sentence.strip() for sentence in sentences if len(sentence) > 20]
+    return sentences
