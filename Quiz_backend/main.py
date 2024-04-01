@@ -12,3 +12,11 @@ from io import BytesIO
 from PyPDF2 import PdfReader
 import nltk
 import spacy
+# other imports
+import time
+import torch
+import numpy
+from transformers import T5ForConditionalGeneration,T5Tokenizer
+import spacy
+import os
+import json
