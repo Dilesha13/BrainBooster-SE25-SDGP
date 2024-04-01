@@ -69,3 +69,21 @@ def edits(word):
     replaces   = [L + c + R[1:]           for L, R in splits if R for c in letters]
     inserts    = [L + c + R               for L, R in splits for c in letters]
     return set(deletes + transposes + replaces + inserts)
+
+def sense2vec_get_words(word,s2v):
+    output = []
+
+    word_preprocessed =  word.translate(word.maketrans("","", string.punctuation))
+    word_preprocessed = word_preprocessed.lower()
+
+    word_edits = edits(word_preprocessed)
+
+    word = word.replace(" ", "_")
+
+    sense = s2v.get_best_sense(word)
+    most_similar = s2v.most_similar(sense, n=15)
+
+    compare_list = [word_preprocessed]
+
+
+    return out
