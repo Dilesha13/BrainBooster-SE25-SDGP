@@ -165,3 +165,29 @@ def filter_phrases(phrase_keys,max,normalized_levenshtein ):
             if len(filtered_phrases)>=max:
                 break
     return filtered_phrases
+
+def get_nouns_multipartite(text):
+    out = []
+
+    extractor = pke.unsupervised.MultipartiteRank()
+    extractor.load_document(input=text, language='en')
+    pos = {'PROPN', 'NOUN'}
+    stoplist = list(string.punctuation)
+    stoplist += stopwords.words('english')
+    extractor.candidate_selection(pos=pos)
+    # 4. build the Multipartite graph and rank candidates using random walk,
+    #    alpha controls the weight adjustment mechanism, see TopicRank for
+    #    threshold/method parameters.
+    try:
+        extractor.candidate_weighting(alpha=1.1,
+                                      threshold=0.75,
+                                      method='average')
+    except:
+        return out
+
+    keyphrases = extractor.get_n_best(n=10)
+
+    for key in keyphrases:
+        out.append(key[0])
+
+    return out
