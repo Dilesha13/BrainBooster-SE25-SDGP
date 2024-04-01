@@ -620,3 +620,10 @@ def extract_text_from_pdf(pdf_bytes):
 
     print("PDF text saved to", output_file_path)
     return text
+
+def predictFromPayload(data):
+    generator = PythonPredictor()
+
+    out1= generator.predict_questions(data)
+
+    return out1
