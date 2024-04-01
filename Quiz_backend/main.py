@@ -439,3 +439,11 @@ class PythonPredictor:
                 torch.cuda.empty_cache()
 
             return final_output  
+        
+            
+            
+            
+    def random_choice(self):
+        a = random.choice([0,1])
+        return bool(a)
+    
