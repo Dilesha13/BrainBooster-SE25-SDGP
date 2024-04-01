@@ -207,3 +207,12 @@ def get_phrases(doc):
     phrase_keys = sorted(phrase_keys, key= lambda x: len(x),reverse=True)
     phrase_keys=phrase_keys[:50]
     return phrase_keys
+
+def get_keywords(nlp,text,max_keywords,s2v,fdist,normalized_levenshtein,no_of_sentences):
+    doc = nlp(text)
+    max_keywords = int(max_keywords)
+
+    keywords = get_nouns_multipartite(text)
+    keywords = sorted(keywords, key=lambda x: fdist[x])
+    keywords = filter_phrases(keywords, max_keywords,normalized_levenshtein )
+
