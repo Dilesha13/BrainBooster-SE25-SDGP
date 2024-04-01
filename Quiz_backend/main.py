@@ -320,3 +320,16 @@ def generate_questions(keyword_sent_mapping,device,tokenizer,model):
         output_array["questions"].append(individual_quest)
         
     return output_array
+
+class PythonPredictor:
+    
+    def __init__(self):
+
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # Construct the path to the parent directory
+        parent_dir = os.path.dirname(current_dir)
+
+        # Construct the path to the folder in the parent directory
+        model_file_1 = os.path.join(parent_dir, "input", "s2v_old")
+        # model_file_1 = "input/s2v_old"
