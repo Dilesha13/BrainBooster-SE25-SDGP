@@ -487,3 +487,33 @@ class PythonPredictor:
         final['Boolean Questions']= output
             
         return final
+    def paraphrase(self,payload):
+        start = time.time()
+        inp = {
+            "input_text": payload.get("input_text"),
+            "max_questions": payload.get("max_questions", 3)
+        }
+
+        text = inp['input_text']
+        num = inp['max_questions']
+        
+        self.sentence= text
+        self.text= "paraphrase: " + self.sentence + " </s>"
+
+        encoding = self.tokenizer.encode_plus(self.text,pad_to_max_length=True, return_tensors="pt")
+        input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding["attention_mask"].to(self.device)
+
+        beam_outputs = self.model.generate(
+            input_ids=input_ids,
+            attention_mask=attention_masks,
+            max_length= 50,
+            num_beams=50,
+            num_return_sequences=num,
+            no_repeat_ngram_size=2,
+            early_stopping=True
+            )
+
+        print ("\nOriginal Question ::")
+        print (text)
+        print ("\n")
+        print ("Paraphrased Questions :: ")
