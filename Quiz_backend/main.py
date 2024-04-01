@@ -279,3 +279,12 @@ def generate_questions_mcq(keyword_sent_mapping,device,tokenizer,model,sense2vec
             output_array["questions"].append(individual_question)
 
     return output_array
+
+def generate_questions(keyword_sent_mapping,device,tokenizer,model):
+    batch_text = []
+    answers = keyword_sent_mapping.keys()
+    for answer in answers:
+        txt = keyword_sent_mapping[answer]
+        context = "context: " + txt
+        text = context + " " + "answer: " + answer + " </s>"
+        batch_text.append(text)
