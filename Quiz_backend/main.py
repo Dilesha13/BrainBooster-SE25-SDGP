@@ -118,3 +118,7 @@ def tokenize_sentences(text):
     # Remove any short sentences less than 20 letters.
     sentences = [sentence.strip() for sentence in sentences if len(sentence) > 20]
     return sentences
+
+def get_sentences_for_keyword(keywords, sentences):
+    keyword_processor = KeywordProcessor()
+    keyword_sentences = {}
