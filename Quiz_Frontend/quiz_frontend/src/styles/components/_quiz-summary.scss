@@ -1,0 +1,23 @@
+.quiz-summary {
+    font-family: $quicksand;
+
+    span.success-icon {
+        color: $green;
+        font-size: $xxlg;
+    }
+
+    h1 {
+        color: $green;
+        text-align: center;
+        font-size: $lg;
+        margin-top: -$sm;
+    }
+
+    h2 {
+        color: $blue;
+    }
+
+    h4 {
+        color: lighten($off-black, 10%);
+    }
+}
