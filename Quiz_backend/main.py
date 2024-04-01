@@ -422,3 +422,20 @@ class PythonPredictor:
                 keyword_sentence_mapping[k] = text_snippet
 
             final_output = {}
+            
+            if len(keyword_sentence_mapping.keys()) == 0:
+                print('ZERO')
+                return final_output
+            else:
+                
+                generated_questions = generate_questions(keyword_sentence_mapping,self.device,self.tokenizer,self.model)
+                print(generated_questions)
+
+                
+            final_output["statement"] = modified_text
+            final_output["questions"] = generated_questions["questions"]
+            
+            if torch.device=='cuda':
+                torch.cuda.empty_cache()
+
+            return final_output  
