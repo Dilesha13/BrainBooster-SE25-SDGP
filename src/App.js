@@ -45,7 +45,7 @@ function App() {
     }
   };
 
-  // Form submit
+  // Form submitpdf file
   const handlePdfFileSubmit = (e) => {
     e.preventDefault();
     if(pdfFile !== null) {
@@ -70,7 +70,7 @@ function App() {
       <br />
       <h4>View PDF</h4>
       <div className='pdf-container'>
-        {/* Show pdf */}
+        {/* Show pdf file*/}
         {viewPdf && (
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
             <Viewer fileUrl={viewPdf} plugins={[defaultLayoutPluginInstance]} />
