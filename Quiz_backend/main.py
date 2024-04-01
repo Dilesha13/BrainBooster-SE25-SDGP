@@ -464,3 +464,7 @@ class PythonPredictor:
 
         encoding = self.tokenizer.encode_plus(form, return_tensors="pt")
         input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding["attention_mask"].to(self.device)
+
+
+        Questions = [self.tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True) for out in
+                    beam_output]
