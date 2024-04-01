@@ -130,3 +130,17 @@ def get_sentences_for_keyword(keywords, sentences):
         keywords_found = keyword_processor.extract_keywords(sentence)
         for key in keywords_found:
             keyword_sentences[key].append(sentence)
+            
+    for key in keyword_sentences.keys():
+        values = keyword_sentences[key]
+        values = sorted(values, key=len, reverse=True)
+        keyword_sentences[key] = values
+
+    delete_keys = []
+    for k in keyword_sentences.keys():
+        if len(keyword_sentences[k]) == 0:
+            delete_keys.append(k)
+    for del_key in delete_keys:
+        del keyword_sentences[del_key]
+
+    return keyword_sentences
