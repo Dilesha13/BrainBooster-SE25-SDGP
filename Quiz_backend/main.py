@@ -45,3 +45,17 @@ from nltk.corpus import stopwords
 from nltk.corpus import brown
 # from similarity.normalized_levenshtein import NormalizedLevenshtein
 from nltk.tokenize import sent_tokenize
+
+# Call the function to download dependencies
+# download_dependencies()
+
+# from app import PythonPredictor 
+
+# ============================== code for generating the result =============================== #
+def MCQs_available(word,s2v):
+    word = word.replace(" ", "_")
+    sense = s2v.get_best_sense(word)
+    if sense is not None:
+        return True
+    else:
+        return False
