@@ -378,3 +378,24 @@ class PythonPredictor:
         for k in keyword_sentence_mapping.keys():
             text_snippet = " ".join(keyword_sentence_mapping[k][:3])
             keyword_sentence_mapping[k] = text_snippet
+
+        final_output = {}
+
+        if len(keyword_sentence_mapping.keys()) == 0:
+            return final_output
+        else:
+            try:
+                generated_questions = generate_questions_mcq(keyword_sentence_mapping,self.device,self.tokenizer,self.model,self.s2v,self.normalized_levenshtein)
+
+            except:
+                return final_output
+            end = time.time()
+
+            final_output["statement"] = modified_text
+            final_output["questions"] = generated_questions["questions"]
+            final_output["time_taken"] = end-start
+            
+            if torch.device=='cuda':
+                torch.cuda.empty_cache()
+                
+            return final_output
