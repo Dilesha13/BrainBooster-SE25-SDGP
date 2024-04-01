@@ -19,7 +19,30 @@
         text-align: center;
     }
 
+    .lifeline {
+        background-color: white;
+        position: relative;
+        top: -3px;
+    }
 
+    .lifeline-icon {
+        background-color: white;
+        color: $green;
+        cursor: pointer;
+    }
+
+    .browser-default {
+        background-color: white;
+        padding-left: 30px;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    img {
+        background-color: white;
+        width: 80%;
+        height: 50%;
+    }
 
     .left{background-color: white;}
 
