@@ -232,3 +232,135 @@ def get_keywords(nlp,text,max_keywords,s2v,fdist,normalized_levenshtein,no_of_se
     answers = answers[:max_keywords]
     
     return answers
+
+def generate_questions_mcq(keyword_sent_mapping,device,tokenizer,model,sense2vec,normalized_levenshtein):
+    batch_text = []
+    answers = keyword_sent_mapping.keys()
+    for answer in answers:
+        txt = keyword_sent_mapping[answer]
+        context = "context: " + txt
+        text = context + " " + "answer: " + answer + " </s>"
+        batch_text.append(text)
+
+    encoding = tokenizer.batch_encode_plus(batch_text, pad_to_max_length=True, return_tensors="pt")
+
+
+    print ("Running model for generation")
+    input_ids, attention_masks = encoding["input_ids"].to(device), encoding["attention_mask"].to(device)
+
+    with torch.no_grad():
+        outs = model.generate(input_ids=input_ids,
+                              attention_mask=attention_masks,
+                              max_length=150)
+
+    output_array ={}
+    output_array["questions"] =[]
+
+    for index, val in enumerate(answers):
+        individual_question ={}
+        out = outs[index, :]
+        dec = tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+
+        Question = dec.replace("question:", "")
+        Question = Question.strip()
+        individual_question["question_statement"] = Question
+        individual_question["question_type"] = "MCQ"
+        individual_question["answer"] = val
+        individual_question["id"] = index+1
+        individual_question["options"], individual_question["options_algorithm"] = get_options(val, sense2vec)
+
+        individual_question["options"] =  filter_phrases(individual_question["options"], 10,normalized_levenshtein)
+        index = 3
+        individual_question["extra_options"]= individual_question["options"][index:]
+        individual_question["options"] = individual_question["options"][:index]
+        individual_question["context"] = keyword_sent_mapping[val]
+     
+        if len(individual_question["options"])>0:
+            output_array["questions"].append(individual_question)
+
+    return output_array
+
+def generate_questions(keyword_sent_mapping,device,tokenizer,model):
+    batch_text = []
+    answers = keyword_sent_mapping.keys()
+    for answer in answers:
+        txt = keyword_sent_mapping[answer]
+        context = "context: " + txt
+        text = context + " " + "answer: " + answer + " </s>"
+        batch_text.append(text)
+
+
+    encoding = tokenizer.batch_encode_plus(batch_text, pad_to_max_length=True, return_tensors="pt")
+
+
+    print ("Running model for generation")
+    input_ids, attention_masks = encoding["input_ids"].to(device), encoding["attention_mask"].to(device)
+
+    with torch.no_grad():
+        outs = model.generate(input_ids=input_ids,
+                              attention_mask=attention_masks,
+                              max_length=150)
+
+    output_array ={}
+    output_array["questions"] =[]
+    
+    for index, val in enumerate(answers):
+        individual_quest= {}
+        out = outs[index, :]
+        dec = tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+        
+        Question= dec.replace('question:', '')
+        Question= Question.strip()
+
+        individual_quest['Question']= Question
+        individual_quest['Answer']= val
+        individual_quest["id"] = index+1
+        individual_quest["context"] = keyword_sent_mapping[val]
+        
+        output_array["questions"].append(individual_quest)
+        
+    return output_array
+
+class PythonPredictor:
+    
+    def __init__(self):
+
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # Construct the path to the parent directory
+        parent_dir = os.path.dirname(current_dir)
+
+        # Construct the path to the folder in the parent directory
+        model_file_1 = os.path.join(parent_dir, "input", "s2v_old")
+        # model_file_1 = "input/s2v_old"
+
+        
+        self.tokenizer = T5Tokenizer.from_pretrained('t5-base')
+        model = T5ForConditionalGeneration.from_pretrained('./input/multiquestiongenerator/')
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(device)
+        # model.eval()
+        self.device = device
+        self.model = model
+        self.nlp = spacy.load('en_core_web_sm')
+
+        self.s2v = Sense2Vec().from_disk('./input/s2v_old/')
+
+        self.fdist = FreqDist(brown.words())
+        self.normalized_levenshtein = NormalizedLevenshtein()
+        self.set_seed(42)
+        self.keyword_sentence_mapping= None
+                
+    def set_seed(self,seed):
+        numpy.random.seed(seed)
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+    
+                
+    def predict_mcq(self, payload):
+        start = time.time()
+        inp = {
+            "input_text": payload.get("input_text"),
+            "max_questions": payload.get("max_questions", 4)
+        }
