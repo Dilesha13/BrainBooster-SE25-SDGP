@@ -364,3 +364,126 @@ class PythonPredictor:
             "input_text": payload.get("input_text"),
             "max_questions": payload.get("max_questions", 4)
         }
+
+        text = inp['input_text']
+        sentences = tokenize_sentences(text)
+        joiner = " "
+        modified_text = joiner.join(sentences)
+
+
+        keywords = get_keywords(self.nlp,modified_text,inp['max_questions'],self.s2v,self.fdist,self.normalized_levenshtein,len(sentences) )
+
+
+        keyword_sentence_mapping = get_sentences_for_keyword(keywords, sentences)
+        for k in keyword_sentence_mapping.keys():
+            text_snippet = " ".join(keyword_sentence_mapping[k][:3])
+            keyword_sentence_mapping[k] = text_snippet
+
+        final_output = {}
+
+        if len(keyword_sentence_mapping.keys()) == 0:
+            return final_output
+        else:
+            try:
+                generated_questions = generate_questions_mcq(keyword_sentence_mapping,self.device,self.tokenizer,self.model,self.s2v,self.normalized_levenshtein)
+
+            except:
+                return final_output
+            end = time.time()
+
+            final_output["statement"] = modified_text
+            final_output["questions"] = generated_questions["questions"]
+            final_output["time_taken"] = end-start
+            
+            if torch.device=='cuda':
+                torch.cuda.empty_cache()
+                
+            return final_output
+    
+        def predict_questions(self, payload):
+            inp = {
+                "input_text": payload.get("input_text"),
+                "max_questions": payload.get("max_questions", 4)
+            }
+
+            text = inp['input_text']
+            sentences = tokenize_sentences(text)
+            joiner = " "
+            modified_text = joiner.join(sentences)
+
+
+            keywords = get_keywords(self.nlp,modified_text,inp['max_questions'],self.s2v,self.fdist,self.normalized_levenshtein,len(sentences) )
+
+
+            keyword_sentence_mapping = get_sentences_for_keyword(keywords, sentences)
+            
+            for k in keyword_sentence_mapping.keys():
+                text_snippet = " ".join(keyword_sentence_mapping[k][:3])
+                keyword_sentence_mapping[k] = text_snippet
+
+            final_output = {}
+            
+            if len(keyword_sentence_mapping.keys()) == 0:
+                print('ZERO')
+                return final_output
+            else:
+                
+                generated_questions = generate_questions(keyword_sentence_mapping,self.device,self.tokenizer,self.model)
+                print(generated_questions)
+
+                
+            final_output["statement"] = modified_text
+            final_output["questions"] = generated_questions["questions"]
+            
+            if torch.device=='cuda':
+                torch.cuda.empty_cache()
+
+            return final_output  
+        
+            
+            
+            
+    def random_choice(self):
+        a = random.choice([0,1])
+        return bool(a)
+
+    def predict_bool(self,payload):
+        start = time.time()
+        inp = {
+            "input_text": payload.get("input_text"),
+            "max_questions": payload.get("max_questions", 4)
+        }
+
+        text = inp['input_text']
+        num= inp['max_questions']
+        sentences = tokenize_sentences(text)
+        joiner = " "
+        modified_text = joiner.join(sentences)
+        answer = self.random_choice()
+        form = "truefalse: %s passage: %s </s>" % (modified_text, answer)
+
+        encoding = self.tokenizer.encode_plus(form, return_tensors="pt")
+        input_ids, attention_masks = encoding["input_ids"].to(self.device), encoding["attention_mask"].to(self.device)
+
+
+        beam_output = self.model.generate(input_ids=input_ids,
+                                    attention_mask=attention_masks,
+                                    max_length=70,
+                                    num_beams=50,
+                                    num_return_sequences=num,
+                                    no_repeat_ngram_size=2,
+                                    early_stopping=True
+                                    )
+        
+        Questions = [self.tokenizer.decode(out, skip_special_tokens=True, clean_up_tokenization_spaces=True) for out in
+                    beam_output]
+        output= [Question.strip().capitalize() for Question in Questions]
+        if torch.device=='cuda':
+            torch.cuda.empty_cache()
+        
+        final= {}
+        final['Text']= text
+        final['Count']= num
+        final['Boolean Questions']= output
+            
+        return final
