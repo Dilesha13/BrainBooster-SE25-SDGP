@@ -28,3 +28,15 @@ import nltk
 from flashtext import KeywordProcessor
 import random
 import Levenshtein
+
+def download_dependencies():
+    # Download NLTK resources
+    nltk.download('brown')
+    nltk.download('stopwords')
+    nltk.download('popular')
+    nltk.download('universal_tagset')
+
+    # Download spaCy resources
+    spacy.cli.download('en')
+
+download_dependencies()
