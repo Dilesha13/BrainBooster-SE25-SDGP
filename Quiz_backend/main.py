@@ -606,3 +606,17 @@ async def analyze_pdf(file: UploadFile = File(...)):
     except Exception as e:
         print(e)
         return JSONResponse(content={"error": "An unexpected error occurred."}, status_code=500)
+    
+def extract_text_from_pdf(pdf_bytes):
+    pdf_file = BytesIO(pdf_bytes)
+    pdf_reader = PdfReader(pdf_file)
+    text = ''
+    for page in pdf_reader.pages:
+        text += page.extract_text()
+
+    output_file_path = "./output/output.txt"
+    with open(output_file_path, "w") as file:
+        json.dump(text, file, indent=4)
+
+    print("PDF text saved to", output_file_path)
+    return text
