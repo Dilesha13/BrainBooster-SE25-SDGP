@@ -333,3 +333,12 @@ class PythonPredictor:
         # Construct the path to the folder in the parent directory
         model_file_1 = os.path.join(parent_dir, "input", "s2v_old")
         # model_file_1 = "input/s2v_old"
+
+        
+        self.tokenizer = T5Tokenizer.from_pretrained('t5-base')
+        model = T5ForConditionalGeneration.from_pretrained('./input/multiquestiongenerator/')
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(device)
+        # model.eval()
+        self.device = device
+        self.model = model
