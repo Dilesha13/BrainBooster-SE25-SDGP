@@ -356,3 +356,11 @@ class PythonPredictor:
         torch.manual_seed(seed)
         if torch.cuda.is_available():
             torch.cuda.manual_seed_all(seed)
+    
+                
+    def predict_mcq(self, payload):
+        start = time.time()
+        inp = {
+            "input_text": payload.get("input_text"),
+            "max_questions": payload.get("max_questions", 4)
+        }
