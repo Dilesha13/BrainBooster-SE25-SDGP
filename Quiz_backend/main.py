@@ -446,4 +446,10 @@ class PythonPredictor:
     def random_choice(self):
         a = random.choice([0,1])
         return bool(a)
-    
+
+    def predict_bool(self,payload):
+        start = time.time()
+        inp = {
+            "input_text": payload.get("input_text"),
+            "max_questions": payload.get("max_questions", 4)
+        }
