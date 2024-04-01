@@ -535,3 +535,74 @@ class PythonPredictor:
             torch.cuda.empty_cache()
         
         return output
+# ============================== code for generating the result =============================== #
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3001","*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.post("/analyze-pdf")
+async def analyze_pdf(file: UploadFile = File(...)):
+    try:
+        # Check if the uploaded file is a PDF
+        if not file.filename.endswith(".pdf"):
+            raise HTTPException(status_code=400, detail="Uploaded file is not a PDF.")
+
+        # Read the content of the PDF file
+        pdf_content = await file.read()
+
+        # Extract text from the PDF
+        pdf_text = extract_text_from_pdf(pdf_content)
+
+        payload = {
+            "input_text": pdf_text,
+            "max_questions": 5
+        }
+
+        responseJSON = predictFromPayload(payload)
+
+        responseJSON.pop('statement', None)
+
+
+        # Step 2 and 3: Generate three wrong answer options from the 'context' and shuffle the list
+        for question in responseJSON['questions']:
+            correct_answer = question['Answer']
+            context_words = question['context'].split()
+            # Filter out the words that are identical to the correct answer
+            wrong_answers = [word for word in context_words if word.lower() != correct_answer.lower()]
+            # Randomly select three wrong answers
+            wrong_answers = random.sample(wrong_answers, min(3, len(wrong_answers)))
+            # Shuffle the list of answer options
+            answer_options = [correct_answer] + wrong_answers
+            random.shuffle(answer_options)
+
+            # Step 4: Modify each question object
+            question['question'] = question.pop('Question')
+            question['optionA'] = answer_options[0]
+            question['optionB'] = answer_options[1]
+            question['optionC'] = answer_options[2]
+            question['optionD'] = answer_options[3]
+            question['answer'] = correct_answer
+
+        output_file_path = "./output/output.json"
+
+        # Write the output to the file
+        with open(output_file_path, "w") as file:
+            json.dump(responseJSON, file, indent=4)
+
+        print("Output saved to", output_file_path)
+        return JSONResponse(content=responseJSON, status_code=200)
+
+    except HTTPException as http_exception:
+       
+        return JSONResponse(content={"error": http_exception.detail}, status_code=http_exception.status_code)
+
+    except Exception as e:
+        print(e)
+        return JSONResponse(content={"error": "An unexpected error occurred."}, status_code=500)
