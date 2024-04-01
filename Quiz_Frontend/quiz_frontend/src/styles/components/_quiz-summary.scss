@@ -49,4 +49,29 @@
     section ul li a {
         padding: $sm !important;
     }
+
+    
+    section ul li a:hover {
+        color: $off-white;
+    }
+
+    section ul li:first-child {
+        border: 1px solid $blue;
+        margin-right: $sm;
+        transition: 0.3s linear all;
+    }
+
+    section ul li:first-child:hover {
+        background-color: $blue;
+    }
+
+    section ul li:last-child {
+        border: 1px solid $green;
+        transition: 0.3s linear all;
+    }
+
+    section ul li:last-child:hover {
+        background-color: $green;
+    }
+
 }
