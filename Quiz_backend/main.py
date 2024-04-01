@@ -40,3 +40,8 @@ def download_dependencies():
     spacy.cli.download('en')
 
 download_dependencies()
+
+from nltk.corpus import stopwords
+from nltk.corpus import brown
+# from similarity.normalized_levenshtein import NormalizedLevenshtein
+from nltk.tokenize import sent_tokenize
