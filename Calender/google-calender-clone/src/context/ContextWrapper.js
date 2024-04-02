@@ -26,3 +26,47 @@ import React, {
     const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
     return parsedEvents;
   }
+
+  
+export default function ContextWrapper(props) {
+    const [monthIndex, setMonthIndex] = useState(dayjs().month());
+    const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
+    const [daySelected, setDaySelected] = useState(dayjs());
+    const [showEventModal, setShowEventModal] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState(null);
+    const [labels, setLabels] = useState([]);
+    const [savedEvents, dispatchCalEvent] = useReducer(
+      savedEventsReducer,
+      [],
+      initEvents
+    );
+  
+    const filteredEvents = useMemo(() => {
+      return savedEvents.filter((evt) =>
+        labels
+          .filter((lbl) => lbl.checked)
+          .map((lbl) => lbl.label)
+          .includes(evt.label)
+      );
+    }, [savedEvents, labels]);
+  
+    useEffect(() => {
+      localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
+    }, [savedEvents]);
+  
+    useEffect(() => {
+      setLabels((prevLabels) => {
+        return [...new Set(savedEvents.map((evt) => evt.label))].map(
+          (label) => {
+            const currentLabel = prevLabels.find(
+              (lbl) => lbl.label === label
+            );
+            return {
+              label,
+              checked: currentLabel ? currentLabel.checked : true,
+            };
+          }
+        );
+      });
+    }, [savedEvents]);
+}
