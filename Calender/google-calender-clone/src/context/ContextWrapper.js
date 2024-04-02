@@ -69,4 +69,49 @@ export default function ContextWrapper(props) {
         );
       });
     }, [savedEvents]);
-}
+
+
+    useEffect(() => {
+        if (smallCalendarMonth !== null) {
+          setMonthIndex(smallCalendarMonth);
+        }
+      }, [smallCalendarMonth]);
+    
+      useEffect(() => {
+        if (!showEventModal) {
+          setSelectedEvent(null);
+        }
+      }, [showEventModal]);
+    
+      function updateLabel(label) {
+        setLabels(
+          labels.map((lbl) => (lbl.label === label.label ? label : lbl))
+        );
+      }
+    
+      return (
+        <GlobalContext.Provider
+          value={{
+            monthIndex,
+            setMonthIndex,
+            smallCalendarMonth,
+            setSmallCalendarMonth,
+            daySelected,
+            setDaySelected,
+            showEventModal,
+            setShowEventModal,
+            dispatchCalEvent,
+            selectedEvent,
+            setSelectedEvent,
+            savedEvents,
+            setLabels,
+            labels,
+            updateLabel,
+            filteredEvents,
+          }}
+        >
+          {props.children}
+        </GlobalContext.Provider>
+      );
+    }
+    
