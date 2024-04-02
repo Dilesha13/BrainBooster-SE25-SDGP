@@ -41,5 +41,52 @@ const PdfSummarizer = () => {
 
         reader.readAsArrayBuffer(selectedFile);
     };
-}
+    
+    const summarizeText = async () => {
+        const sentences = text.split(/[.!?]/);
+        const summaryText = sentences.slice(0, 3).join('. ') + '.';
+        setSummary(summaryText);
+    };
+
+    return (
+        <div className="container">
+            <div className='w-full bg-[#0f172a] h-full min-h-[100vh] 
+    py-4 
+    px-4 
+    md:px-20'>
+      <div className="page">
+        <div className="page">
+          <h3>Summary!</h3>
+          {/* <a href="#">
+            <img src="./assets/Logo.png" alt="logo"/>
+          </a> */}
+        </div>
+        <div className="page">
+          <h1 className="text-3xl text-white text-center leading-10 font-semibold">Summarizer with<br/><span className="page1">BrainBooster</span></h1>
+          <p className="page">Simply upload your document and get a quick summary using BrainBooster Summarizer.<br/></p>
+        </div>
+       </div>    
+     </div>
+            {/* <h1>PDF Summarizer</h1> */}
+            <input type="file" onChange={onFileChange}/>
+            {file && (
+                <div className="pdf-info">
+                    <h3>PDF Information</h3>
+                    <p><strong>Title:</strong> {title}</p>
+                    <p><strong>Author:</strong> {author}</p>
+                    <p><strong>Number of Pages:</strong> {numPages}</p>
+                    <Document file={file} onLoadSuccess={({numPages}) => setNumPages(numPages)}>
+                        <Page pageNumber={pageNumber}/>
+                    </Document>
+                </div>
+            )}
+            <button className="button" onClick={summarizeText} disabled={!file}>Summarize</button>
+            <div className="summary">
+                <h2>Summary</h2>
+                <p>{summary}</p>
+            </div>
+        </div>
+    );
+};
+
 export default PdfSummarizer;
